@@ -72,3 +72,21 @@ docker compose exec -e PYSPARK_PYTHON=python3 spark-master /opt/spark/bin/spark-
   ```bash
   docker compose exec spark-master python3 spark/train_model.py
   ```
+
+## 6. Lab Reflection: Conceptual Answers
+
+### 1. Kafka Fundamentals
+- **Topics**: A named stream of records. In this lab, we use `transactions`.
+- **Partitions**: Topics are divided into partitions for parallelism. Each partition is an ordered, immutable sequence of records.
+- **Offsets**: A unique sequential ID assigned to each record within a partition. It allows consumers to track their reading progress.
+- **Consumer Groups**: A group of consumers that cooperate to consume data from a topic. Kafka ensures each partition is read by only one consumer in the group to avoid duplicate processing.
+
+### 2. Stream Processing (Spark)
+- **Micro-batch Model**: Spark Structured Streaming processes data in small batches (e.g., 1 second). This provides a balance between high throughput and low latency.
+- **Stateless vs. Stateful**: 
+    - *Stateless*: Each row is processed independently (Phase 1 inference).
+    - *Stateful*: Computations require memory of previous rows (Phase 3 windowed averages).
+
+### 3. Machine Learning on Streams
+- **Streaming Inference**: Applying a model to live data without retraining. It requires the model to be loaded once and used for every new event.
+- **Concept Drift**: In production, model performance often degrades because fraud patterns change over time. Monitoring (Phase 3) is essential to detect when the model needs retraining.
